@@ -1,6 +1,6 @@
 <?php
 
-use App\ServiceContainer;
+use App\App;
 use App\Container;
 use App\Controller\LoginController;
 use App\Controller\AbcController;
@@ -18,4 +18,4 @@ $container->bind(LoginController::class, function () {
     return new LoginController($userRepository, $tokenservice);
 });
 
-ServiceContainer::setContainer($container);
+App::setContainer($container);
