@@ -10,5 +10,5 @@ class LoginResponseDto
 
     public string $email;
 
-    public array $authorization;
+    public string $token;
 }

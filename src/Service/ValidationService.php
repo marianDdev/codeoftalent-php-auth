@@ -33,6 +33,11 @@ class ValidationService implements ValidationServiceInterface
         return $this->errors;
     }
 
+    public function failed(): int
+    {
+        return count($this->errors);
+    }
+
     public function getAttributes(): array
     {
         return $this->attributes;

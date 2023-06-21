@@ -11,4 +11,6 @@ interface ValidationServiceInterface
     public function getErrors(): array;
 
     public function getAttributes(): array;
+
+    public function failed(): int;
 }
