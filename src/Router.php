@@ -41,7 +41,7 @@ class Router
     {
         foreach ($this->routes as $route) {
             if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
-                $controller = ServiceContainer::resolve($route['controller']);
+                $controller = App::resolve($route['controller']);
                 $controller();
             }
         }

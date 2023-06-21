@@ -4,7 +4,7 @@ namespace App;
 
 use Exception;
 
-class ServiceContainer
+class App
 {
     protected static Container $container;
 
