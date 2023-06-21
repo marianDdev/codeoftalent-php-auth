@@ -1,0 +1,12 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "require": {
+    "ext-pdo": "*",
+    "lcobucci/jwt": "^5.0",
+    "vlucas/phpdotenv": "^5.5"
+  }
+}
