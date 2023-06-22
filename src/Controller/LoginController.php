@@ -27,19 +27,22 @@ class LoginController
     /**
      * @throws Exception
      */
-    public function __invoke(): string
+    public function __invoke(): void
     {
-        $attributes = $_REQUEST;
-        $validated  = ValidationService::validate($attributes);
+        $requestBody = json_decode(file_get_contents('php://input'), true);
 
-        if (!empty($validated->getErrors())) {
-            return json_encode($validated->getErrors());
+        $request = ValidationService::validate($requestBody);
+
+        if ($request->failed()) {
+            echo json_encode(['errors' => $request->getErrors()]);
+            die();
         }
 
         try {
-            $user = $this->userRepository->getUser($validated->getAttributes());
+            $user = $this->userRepository->getUser($request->getAttributes());
         } catch (Exception $e) {
-            return json_encode(sprintf('Login failed. Error: %s', $e->getMessage()));
+            echo json_encode(['errors' => sprintf('Login failed. Error: %s', $e->getMessage())]);
+            die();
         }
 
         $token = $this->tokenService->generate();
@@ -47,18 +50,15 @@ class LoginController
         $dto = $this->buildResponseDto($user, $token);
         $this->storeToSession($dto);
 
-        return json_encode($dto);
+        echo json_encode($dto);
     }
 
     private function buildResponseDto(array $user, string $token): LoginResponseDto
     {
-        $dto                = new LoginResponseDto();
-        $dto->userName      = sprintf('%s %s', $user['first_name'], $user['last_name']);
-        $dto->email         = $user['email'];
-        $dto->authorization = [
-            'token' => $token,
-            'type'  => 'bearer',
-        ];
+        $dto           = new LoginResponseDto();
+        $dto->userName = sprintf('%s %s', $user['first_name'], $user['last_name']);
+        $dto->email    = $user['email'];
+        $dto->token    = $token;
 
         return $dto;
     }
@@ -67,6 +67,6 @@ class LoginController
     {
         Session::put('user', $dto->userName);
         Session::put('email', $dto->email);
-        Session::put('token', $dto->authorization);
+        Session::put('token', $dto->token);
     }
 }
