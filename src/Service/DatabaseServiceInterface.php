@@ -8,5 +8,5 @@ use PDOStatement;
 
 interface DatabaseServiceInterface
 {
-    public function getPreparedStatement(string $query, array $params): bool|PDOStatement;
+    public function prepareStatement(string $query, array $params): bool|PDOStatement;
 }
