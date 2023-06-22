@@ -1,6 +1,5 @@
 ## Instructions for backend
 
-
 - Run git clone https://github.com/marianDdev/codeoftalent-php-auth.git
 - Run composer install
 - Run cp .env.example .env
